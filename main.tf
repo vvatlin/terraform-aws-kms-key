@@ -15,3 +15,10 @@ resource "aws_kms_alias" "default" {
   name          = coalesce(var.alias, format("alias/%v", module.this.id))
   target_key_id = join("", aws_kms_key.default.*.id)
 }
+
+resource "aws_kms_replica_key" "default" {
+  count                   = var.multi_region ? 1 : 0
+  deletion_window_in_days = var.deletion_window_in_days
+  primary_key_arn         = aws_kms_key.default.arn
+  policy                  = var.policy
+}
