@@ -19,6 +19,6 @@ resource "aws_kms_alias" "default" {
 resource "aws_kms_replica_key" "default" {
   count                   = var.multi_region ? 1 : 0
   deletion_window_in_days = var.deletion_window_in_days
-  primary_key_arn         = aws_kms_key.default.arn
+  primary_key_arn         = aws_kms_key.default[0].arn
   policy                  = var.policy
 }
